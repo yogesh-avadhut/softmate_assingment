@@ -9,6 +9,8 @@ taskRouter.post( "/add-task",authenticate,authorizedRole('manager','teamlead'), 
 
 taskRouter.get("/get-all-task",authenticate,authorizedRole('manager','teamlead'),getAllTask )
 
+taskRouter.get("/get-task-by-userid/:id",authenticate,authorizedRole('manager','employee','teamlead'),getAllTask )
+
 taskRouter.patch("/update-task",authenticate,authorizedRole('manager','teamlead'),updatetask)
 
 taskRouter.patch(

@@ -71,6 +71,14 @@ const deleteTask = async function(id:any){
     return tskData
 }
 
+const getTaskByUserId = async function(userId:any){
+     const [AssignedTasks] = await pool.query(
+        `SELECT * FROM tasks  WHERE userId = ?`,
+        [userId]
+    )
+    return AssignedTasks
+}
 
 
-export { createTask, findTaskByTaskName, findAlltask,updateTask,updateTaskStatus, deleteTask }
+
+export { createTask, findTaskByTaskName, findAlltask,updateTask,updateTaskStatus, deleteTask , getTaskByUserId}

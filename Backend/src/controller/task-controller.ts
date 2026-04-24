@@ -1,4 +1,4 @@
-import { createTask, findTaskByTaskName, findAlltask, updateTask, updateTaskStatus, deleteTask } from "../repository/task-repository.js";
+import { createTask, findTaskByTaskName, findAlltask, updateTask, updateTaskStatus, deleteTask, getTaskByUserId } from "../repository/task-repository.js";
 
 
 const addTask = async function (req: any, res: any) {
@@ -49,6 +49,24 @@ const getAllTask = async function (req: any, res: any) {
 
 }
 
+const getAllTaskByUserId = async function (req: any, res: any) {
+    try {
+       const { userId } = req.params.userId
+        const taskData = await getTaskByUserId(userId)
+        res.send({
+            error: false,
+            message: "task fetched successfully...",
+            data: taskData
+        })
+    }
+    catch (err: any) {
+        res.send({
+            error: true,
+            message: err.message
+        })
+    }
+
+}
 
 const updatetask = async function(req: any, res: any){
     try {
@@ -110,4 +128,4 @@ const deleteTsk = async function(req:any, res:any){
 }
 
 
-export { addTask, getAllTask, updatetask, updateTStatus, deleteTsk }
+export { addTask, getAllTask, updatetask, updateTStatus, deleteTsk, getAllTaskByUserId }
