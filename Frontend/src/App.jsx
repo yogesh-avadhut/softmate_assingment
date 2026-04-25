@@ -1,0 +1,78 @@
+
+
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+
+import ProtectedRoute from './components/ProtectedRoute';
+
+import Layout from './components/Layout';
+
+import Login        from './pages/Login';
+import Register     from './pages/Register';
+
+import Dashboard    from './pages/Dashboard';
+import TasksPage    from './pages/TasksPage';
+import AddTaskPage  from './pages/AddTaskPage';
+import MyTasksPage  from './pages/MyTasksPage';
+import UsersPage    from './pages/UsersPage';
+
+import ProfilePage  from './pages/ProfilePage';
+
+
+
+export default function App() {
+
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+
+        <Routes>
+
+          <Route path="/login"    element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/"         element={<Navigate to="/login" replace />} />
+
+
+          <Route element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }>
+
+            <Route path="/dashboard" element={<Dashboard />} />
+
+
+            <Route path="/tasks" element={
+              <ProtectedRoute roles={['manager', 'teamlead']}>
+                <TasksPage />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/tasks/new" element={
+              <ProtectedRoute roles={['manager', 'teamlead']}>
+                <AddTaskPage />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/users" element={
+              <ProtectedRoute roles={['manager', 'teamlead']}>
+                <UsersPage />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/my-tasks" element={
+              <ProtectedRoute roles={['employee']}>
+                <MyTasksPage />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
+
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
